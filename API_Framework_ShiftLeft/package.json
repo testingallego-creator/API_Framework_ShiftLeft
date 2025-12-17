@@ -1,0 +1,59 @@
+{
+  "name": "shiftleft-framework",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+
+    "validate-contracts": "node dist/src/uce/index.js",
+
+    "generate:mocks": "node dist/src/scripts/generate-rest-mocks.js",
+
+    "build:impact-map": "node dist/src/scripts/build-impact-map.js",
+
+    "test:pr": "cross-env TEST_MODE=impacted node dist/src/scripts/run-tests.js",
+    "test:nightly": "cross-env TEST_MODE=full node dist/src/scripts/run-tests.js",
+
+    "test:impacted": "npm run test:pr",
+    "test:all": "npm run test:nightly",
+
+    "clean:allure": "rimraf allure-results allure-report",
+
+    "mock:api": "prism mock contracts/rest/sample-api.yaml -p 4010",
+
+
+    "allure:generate": "allure generate ./allure-results -o ./allure-report --clean",
+    "allure:open": "allure open ./allure-report",
+   "shiftleft:pr": "npm run build && npm run validate-contracts && npm run generate:mocks && npm run build:impact-map && npm run test:pr && npm run allure:generate",
+"shiftleft:local": "npm run shiftleft:pr && npm run allure:open"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^12.1.0",
+    "@faker-js/faker": "^8.4.1",
+    "js-yaml": "^4.1.0",
+    "msw": "^2.0.0",
+    "protobufjs": "^7.5.4"
+  },
+  "devDependencies": {
+    "@graphql-tools/mock": "^9.1.4",
+    "@graphql-tools/schema": "^10.0.30",
+    "@graphql-yoga/node": "^3.9.1",
+    "@grpc/grpc-js": "^1.14.3",
+    "@grpc/proto-loader": "^0.8.0",
+    "@playwright/test": "^1.43.0",
+    "@stoplight/prism-cli": "^5.14.2",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^18.19.0",
+    "allure-commandline": "^2.36.0",
+    "allure-playwright": "^3.4.3",
+    "cross-env": "^10.1.0",
+    "graphql": "^16.12.0",
+    "graphql-yoga": "^5.17.1",
+    "rimraf": "^6.1.2",
+    "typescript": "^5.4.0"
+  }
+}
